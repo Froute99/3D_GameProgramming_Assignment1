@@ -263,7 +263,7 @@ void CExplosiveObject::Render(HDC hDCFrameBuffer, CCamera* pCamera)
 	{
 		for (int i = 0; i < EXPLOSION_DEBRISES; i++)
 		{
-			CGameObject::Render(hDCFrameBuffer , &m_pxmf4x4Transforms[i], m_pExplosionMesh);
+			CGameObject::Render(hDCFrameBuffer, &m_pxmf4x4Transforms[i], m_pExplosionMesh);
 		}
 	}
 	else
@@ -367,11 +367,10 @@ void CAxisObject::Render(HDC hDCFrameBuffer, CCamera* pCamera)
 CRail::CRail(XMFLOAT3 position) {
 	CCubeMesh* cubeMesh = new CCubeMesh(0.5f, 0.5f, 5.f);
 
+
 	const float railWidth = 3.5f;
 	const float halfRailWidth = railWidth * 0.5f;
 	const float halfRailDepth = 1.2f;
-	//XMFLOAT3 position{ 0.f, 0.f, 10.f };
-	//XMFLOAT3 position = this->GetPosition();
 
 	parts[0] = new CGameObject();
 	parts[0]->SetMesh(cubeMesh);
@@ -395,6 +394,8 @@ CRail::CRail(XMFLOAT3 position) {
 	parts[3]->SetPosition(position.x, position.y, position.z - halfRailDepth);
 	parts[3]->Rotate(0.f, 90.f, 0.f);
 
+	SetMesh(cubeMesh);
+	SetPosition(position);
 }
 
 CRail::~CRail() {
@@ -402,11 +403,9 @@ CRail::~CRail() {
 }
 
 void CRail::Render(HDC hDCFrameBuffer, CCamera* pCamera) {
-	if (pCamera->IsInFrustum(m_xmOOBB)) {
-		//CGameObject::Render(hDCFrameBuffer, &m_xmf4x4World, m_pMesh);
-		for (auto x : parts) {
-			x->Render(hDCFrameBuffer, pCamera);
-		}
+	for (CGameObject* part : parts) {
+		if (pCamera->IsInFrustum(m_xmOOBB))
+			CGameObject::Render(hDCFrameBuffer, &part->m_xmf4x4World, part->m_pMesh);
 	}
 }
 
