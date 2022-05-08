@@ -37,9 +37,9 @@ void CScene::BuildObjects()
 	const float halfRailWidth = railWidth * 0.5f;
 	const float halfRailDepth = 1.2f;
 
-	CCubeMesh* pCubeMesh = new CCubeMesh(1.0f, 1.0f, 5.0f);
+	CCubeMesh* pCubeMesh = new CCubeMesh(1.0f, 1.0f, 3.0f);
 
-	m_nObjects = 2;
+	m_nObjects = 60;
 	m_ppObjects = new CGameObject * [m_nObjects];
 
 	const float xBase = 0.f;
@@ -47,19 +47,50 @@ void CScene::BuildObjects()
 	const float zBase = 0.f;
 	const float offset = 5.f;
 
-	m_ppObjects[0] = new CGameObject;
-	m_ppObjects[0]->SetMesh(pCubeMesh);
-	m_ppObjects[0]->SetColor(RGB(255, 0, 0));
-	m_ppObjects[0]->SetPosition(0.f, 0.0f, 0.0f);
+	//m_ppObjects[0] = new CGameObject;
+	//m_ppObjects[0]->SetMesh(pCubeMesh);
+	//m_ppObjects[0]->SetColor(RGB(255, 0, 0));
 
-	m_ppObjects[1] = new CGameObject;
-	m_ppObjects[1]->SetMesh(pCubeMesh);
-	m_ppObjects[1]->SetColor(RGB(255, 0, 0));
-	XMFLOAT4X4 mtxRotate = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, -15.f);
-	XMFLOAT4X4 multi = Matrix4x4::Multiply(mtxRotate, m_ppObjects[1]->m_xmf4x4World);
-	m_ppObjects[1]->SetPosition(0.f, 0.f, 5.f);
-	m_ppObjects[1]->SetRotationTransform(&multi);
-	//m_ppObjects[1]->Rotate(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, -15.f);
+	//m_ppObjects[1] = new CGameObject;
+	//m_ppObjects[1]->SetMesh(pCubeMesh);
+	//m_ppObjects[1]->SetColor(RGB(255, 0, 0));
+
+	//m_ppObjects[2] = new CGameObject;
+	//m_ppObjects[2]->SetMesh(pCubeMesh);
+	//m_ppObjects[2]->SetColor(RGB(255, 0, 0));
+
+	float degree = -6.f;
+
+	//XMFLOAT4X4 t0 = Matrix4x4::Translate(5.f, 0.f, 0.f);
+	//XMFLOAT4X4 r0 = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, 0.f);
+	//m_ppObjects[0]->m_xmf4x4World = Matrix4x4::Multiply(t0, r0);
+
+
+	//XMFLOAT3 basePos = m_ppObjects[0]->GetPosition();
+
+	//XMFLOAT4X4 t1 = Matrix4x4::Translate(basePos.x, basePos.y, basePos.z);
+	//XMFLOAT4X4 r1 = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, -15.f);
+	//m_ppObjects[1]->m_xmf4x4World = Matrix4x4::Multiply(t1, r1);
+
+
+	//XMFLOAT4X4 t2 = Matrix4x4::Translate(basePos.x, basePos.y, basePos.z);
+	//XMFLOAT4X4 r2 = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, -30.f);
+	//m_ppObjects[2]->m_xmf4x4World = Matrix4x4::Multiply(t2, r2);
+
+	XMFLOAT3 basePos = XMFLOAT3{ 15.f, 0.f, 0.f };
+	for (int i = 0; i < 60; ++i) {
+		m_ppObjects[i] = new CGameObject;
+		m_ppObjects[i]->SetMesh(pCubeMesh);
+		m_ppObjects[i]->SetColor(RGB(255, 0, 0));
+
+		XMFLOAT4X4 t = Matrix4x4::Translate(basePos.x, basePos.y, basePos.z);
+		XMFLOAT4X4 r = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, degree * i);
+		m_ppObjects[i]->m_xmf4x4World = Matrix4x4::Multiply(t, r);
+
+		//basePos = m_ppObjects[i]->GetPosition();
+	}
+
+
 
 	//m_ppObjects[2] = new CGameObject;
 	//m_ppObjects[2]->SetMesh(pCubeMesh);
