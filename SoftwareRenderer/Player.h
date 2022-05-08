@@ -28,6 +28,8 @@ public:
 
 public:
 	void SetPosition(float x, float y, float z);
+	void SetPosition(const DirectX::XMFLOAT3& position);
+
 	void SetRotation(float x, float y, float z);
 
 	void LookAt(XMFLOAT3& xmf3LookAt, XMFLOAT3& xmf3Up);

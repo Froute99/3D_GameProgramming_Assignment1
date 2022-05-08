@@ -10,11 +10,13 @@ public:
 	CScene(CPlayer *pPlayer);
 	virtual ~CScene();
 
+	bool isCoasterMoving = false;
+
 private:
 	int							m_nObjects = 0;
 	CGameObject					**m_ppObjects = NULL;
 
-	//CWallsObject*				m_pWallsObject = NULL;
+	CWallsObject*				m_pWallsObject = NULL;
 
 	CPlayer*					m_pPlayer = NULL;
 

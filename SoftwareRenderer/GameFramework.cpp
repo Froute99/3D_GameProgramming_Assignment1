@@ -75,6 +75,7 @@ void CGameFramework::BuildObjects()
 
 	//m_pPlayer = new CAirplanePlayer();
 	m_pPlayer = new CPlayer();
+	m_pPlayer->m_xmf3Velocity.z = 1.f;
 	m_pPlayer->SetPosition(0.0f, 0.0f, 0.0f);
 	//m_pPlayer->SetMesh(pAirplaneMesh);
 	m_pPlayer->SetMesh(cubeMesh);
