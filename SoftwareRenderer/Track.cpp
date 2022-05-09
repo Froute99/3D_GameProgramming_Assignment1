@@ -1,4 +1,3 @@
-
 #include <list>
 #include "stdafx.h"
 #include "Rail.h"
