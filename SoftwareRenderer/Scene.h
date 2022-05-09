@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "Player.h"
+#include "Track.h"
 
 class CScene
 {
@@ -20,11 +21,15 @@ private:
 
 	CPlayer*					m_pPlayer = NULL;
 
+	CTrack						m_track{60, -6.f};
+
 #ifdef _WITH_DRAW_AXIS
 	CGameObject*				m_pWorldAxis = NULL;
 #endif
 
 public:
+	void IncreaseObjects() { ++m_nObjects; }
+
 	virtual void BuildObjects();
 	virtual void ReleaseObjects();
 

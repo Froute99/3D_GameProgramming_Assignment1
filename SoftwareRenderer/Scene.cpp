@@ -42,10 +42,10 @@ void CScene::BuildObjects()
 	m_nObjects = 60;
 	m_ppObjects = new CGameObject * [m_nObjects];
 
-	const float xBase = 0.f;
-	const float yBase = 0.f;
-	const float zBase = 0.f;
-	const float offset = 5.f;
+	//const float xBase = 0.f;
+	//const float yBase = 0.f;
+	//const float zBase = 0.f;
+	//const float offset = 5.f;
 
 	//m_ppObjects[0] = new CGameObject;
 	//m_ppObjects[0]->SetMesh(pCubeMesh);
@@ -65,7 +65,6 @@ void CScene::BuildObjects()
 	//XMFLOAT4X4 r0 = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, 0.f);
 	//m_ppObjects[0]->m_xmf4x4World = Matrix4x4::Multiply(t0, r0);
 
-
 	//XMFLOAT3 basePos = m_ppObjects[0]->GetPosition();
 
 	//XMFLOAT4X4 t1 = Matrix4x4::Translate(basePos.x, basePos.y, basePos.z);
@@ -77,6 +76,7 @@ void CScene::BuildObjects()
 	//XMFLOAT4X4 r2 = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, -30.f);
 	//m_ppObjects[2]->m_xmf4x4World = Matrix4x4::Multiply(t2, r2);
 
+
 	XMFLOAT3 basePos = XMFLOAT3{ 15.f, 0.f, 0.f };
 	for (int i = 0; i < 60; ++i) {
 		m_ppObjects[i] = new CGameObject;
@@ -86,8 +86,6 @@ void CScene::BuildObjects()
 		XMFLOAT4X4 t = Matrix4x4::Translate(basePos.x, basePos.y, basePos.z);
 		XMFLOAT4X4 r = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, degree * i);
 		m_ppObjects[i]->m_xmf4x4World = Matrix4x4::Multiply(t, r);
-
-		//basePos = m_ppObjects[i]->GetPosition();
 	}
 
 
@@ -375,7 +373,7 @@ void CScene::Render(HDC hDCFrameBuffer, CCamera* pCamera)
 	CGraphicsPipeline::SetViewPerspectiveProjectTransform(&pCamera->m_xmf4x4ViewPerspectiveProject);
 	//m_pWallsObject->Render(hDCFrameBuffer, pCamera);
 	for (int i = 0; i < m_nObjects; i++)
-		m_ppObjects[i]->Render(hDCFrameBuffer, pCamera);
+		//m_ppObjects[i]->Render(hDCFrameBuffer, pCamera);
 
 	if (m_pPlayer) m_pPlayer->Render(hDCFrameBuffer, pCamera);
 
