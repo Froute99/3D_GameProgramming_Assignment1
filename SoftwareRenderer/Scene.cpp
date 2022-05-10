@@ -32,94 +32,9 @@ void CScene::BuildObjects()
 	//m_pWallsObject->m_pxmf4WallPlanes[5] = XMFLOAT4(0.0f, 0.0f, -1.0f, fHalfDepth);
 	//m_pWallsObject->m_xmOOBBPlayerMoveCheck = BoundingOrientedBox(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(fHalfWidth, fHalfHeight, fHalfDepth * 0.05f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 
+	m_track = new CTrack(60, -6.f);
 
-	const float railWidth = 4.f;
-	const float halfRailWidth = railWidth * 0.5f;
-	const float halfRailDepth = 1.2f;
-
-	CCubeMesh* pCubeMesh = new CCubeMesh(1.0f, 1.0f, 3.0f);
-
-	m_nObjects = 60;
-	m_ppObjects = new CGameObject * [m_nObjects];
-
-	//const float xBase = 0.f;
-	//const float yBase = 0.f;
-	//const float zBase = 0.f;
-	//const float offset = 5.f;
-
-	//m_ppObjects[0] = new CGameObject;
-	//m_ppObjects[0]->SetMesh(pCubeMesh);
-	//m_ppObjects[0]->SetColor(RGB(255, 0, 0));
-
-	//m_ppObjects[1] = new CGameObject;
-	//m_ppObjects[1]->SetMesh(pCubeMesh);
-	//m_ppObjects[1]->SetColor(RGB(255, 0, 0));
-
-	//m_ppObjects[2] = new CGameObject;
-	//m_ppObjects[2]->SetMesh(pCubeMesh);
-	//m_ppObjects[2]->SetColor(RGB(255, 0, 0));
-
-	float degree = -6.f;
-
-	//XMFLOAT4X4 t0 = Matrix4x4::Translate(5.f, 0.f, 0.f);
-	//XMFLOAT4X4 r0 = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, 0.f);
-	//m_ppObjects[0]->m_xmf4x4World = Matrix4x4::Multiply(t0, r0);
-
-	//XMFLOAT3 basePos = m_ppObjects[0]->GetPosition();
-
-	//XMFLOAT4X4 t1 = Matrix4x4::Translate(basePos.x, basePos.y, basePos.z);
-	//XMFLOAT4X4 r1 = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, -15.f);
-	//m_ppObjects[1]->m_xmf4x4World = Matrix4x4::Multiply(t1, r1);
-
-
-	//XMFLOAT4X4 t2 = Matrix4x4::Translate(basePos.x, basePos.y, basePos.z);
-	//XMFLOAT4X4 r2 = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, -30.f);
-	//m_ppObjects[2]->m_xmf4x4World = Matrix4x4::Multiply(t2, r2);
-
-
-	XMFLOAT3 basePos = XMFLOAT3{ 15.f, 0.f, 0.f };
-	for (int i = 0; i < 60; ++i) {
-		m_ppObjects[i] = new CGameObject;
-		m_ppObjects[i]->SetMesh(pCubeMesh);
-		m_ppObjects[i]->SetColor(RGB(255, 0, 0));
-
-		XMFLOAT4X4 t = Matrix4x4::Translate(basePos.x, basePos.y, basePos.z);
-		XMFLOAT4X4 r = Matrix4x4::RotationAxis(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, degree * i);
-		m_ppObjects[i]->m_xmf4x4World = Matrix4x4::Multiply(t, r);
-	}
-
-
-
-	//m_ppObjects[2] = new CGameObject;
-	//m_ppObjects[2]->SetMesh(pCubeMesh);
-	//m_ppObjects[2]->SetColor(RGB(255, 0, 0));
-	//m_ppObjects[2]->SetPosition(7.2f, 0.f, 10.f);
-	//m_ppObjects[2]->Rotate(DirectX::XMFLOAT3{ 0.f, 1.f, 0.f }, -30.f);
-
-	//for (int i = 0; i < m_nObjects; ++i) {
-	//	m_ppObjects[i] = new CRail({ xBase, yBase, zBase + offset * i });
-	//}
-
-
-	//m_ppObjects[0] = new CRail({ 0.f, 0.0f, 0.0f });
-	//m_ppObjects[0]->SetMesh(pCubeMesh);
-	//m_ppObjects[0]->SetColor(RGB(255, 0, 0));
-	//m_ppObjects[0]->SetPosition(0.f, 0.0f, 0.0f);
-
-	//m_ppObjects[1] = new CRail({ 0.f, 0.0f, 7.5f });
-	//m_ppObjects[1]->SetMesh(pCubeMesh);
-	//m_ppObjects[1]->SetColor(RGB(255, 0, 0));
-	//m_ppObjects[1]->SetPosition(0.f, 0.0f, 7.5f);
-
-	//m_ppObjects[0] = new CExplosiveObject();
-	//m_ppObjects[0]->SetMesh(pCubeMesh);
-	//m_ppObjects[0]->SetColor(RGB(255, 0, 0));
-	//m_ppObjects[0]->SetPosition(-13.5f, 0.0f, -14.0f);
-	//m_ppObjects[0]->SetRotationAxis(XMFLOAT3(0.0f, 1.0f, 1.0f));
-	//m_ppObjects[0]->SetRotationSpeed(90.0f);
-	//m_ppObjects[0]->SetMovingDirection(XMFLOAT3(1.0f, 0.0f, 0.0f));
-	//m_ppObjects[0]->SetMovingSpeed(10.5f);
-
+	//m_track->now;
 
 
 #ifdef _WITH_DRAW_AXIS
@@ -343,19 +258,28 @@ void CScene::Animate(float fElapsedTime)
 	for (int i = 0; i < m_nObjects; i++)
 		m_ppObjects[i]->Animate(fElapsedTime);
 
+	
 	if (isCoasterMoving) {
-		m_pPlayer->m_xmf3Velocity.x = (m_ppObjects[1]->GetPosition().x - m_ppObjects[0]->GetPosition().x) / 100.f;
-		m_pPlayer->m_xmf3Velocity.y = (m_ppObjects[1]->GetPosition().y - m_ppObjects[0]->GetPosition().y) / 100.f;
-		m_pPlayer->m_xmf3Velocity.z = (m_ppObjects[1]->GetPosition().z - m_ppObjects[0]->GetPosition().z) / 100.f;
-		DirectX::XMFLOAT3 currPosition = m_pPlayer->GetPosition();
-		m_pPlayer->SetPosition(DirectX::XMFLOAT3{
-			currPosition.x + m_pPlayer->m_xmf3Velocity.x * fElapsedTime,
-			currPosition.y + m_pPlayer->m_xmf3Velocity.y * fElapsedTime,
-			currPosition.z + m_pPlayer->m_xmf3Velocity.z * fElapsedTime });
-		if (m_pPlayer->GetPosition().z > m_ppObjects[1]->GetPosition().z) {
-			isCoasterMoving = false;
-		}
+		DirectX::XMFLOAT3 direction;
+
+
+
+		m_pPlayer->SetMovingDirection(direction);
 	}
+
+	//if (isCoasterMoving) {
+	//	m_pPlayer->m_xmf3Velocity.x = (m_ppObjects[1]->GetPosition().x - m_ppObjects[0]->GetPosition().x) / 100.f;
+	//	m_pPlayer->m_xmf3Velocity.y = (m_ppObjects[1]->GetPosition().y - m_ppObjects[0]->GetPosition().y) / 100.f;
+	//	m_pPlayer->m_xmf3Velocity.z = (m_ppObjects[1]->GetPosition().z - m_ppObjects[0]->GetPosition().z) / 100.f;
+	//	DirectX::XMFLOAT3 currPosition = m_pPlayer->GetPosition();
+	//	m_pPlayer->SetPosition(DirectX::XMFLOAT3{
+	//		currPosition.x + m_pPlayer->m_xmf3Velocity.x * fElapsedTime,
+	//		currPosition.y + m_pPlayer->m_xmf3Velocity.y * fElapsedTime,
+	//		currPosition.z + m_pPlayer->m_xmf3Velocity.z * fElapsedTime });
+	//	if (m_pPlayer->GetPosition().z > m_ppObjects[1]->GetPosition().z) {
+	//		isCoasterMoving = false;
+	//	}
+	//}
 
 	//CheckPlayerByWallCollision();
 
@@ -372,8 +296,11 @@ void CScene::Render(HDC hDCFrameBuffer, CCamera* pCamera)
 
 	CGraphicsPipeline::SetViewPerspectiveProjectTransform(&pCamera->m_xmf4x4ViewPerspectiveProject);
 	//m_pWallsObject->Render(hDCFrameBuffer, pCamera);
+
 	for (int i = 0; i < m_nObjects; i++)
-		//m_ppObjects[i]->Render(hDCFrameBuffer, pCamera);
+		m_ppObjects[i]->Render(hDCFrameBuffer, pCamera);
+
+	m_track->Render(hDCFrameBuffer, pCamera);
 
 	if (m_pPlayer) m_pPlayer->Render(hDCFrameBuffer, pCamera);
 

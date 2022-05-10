@@ -21,7 +21,7 @@ private:
 
 	CPlayer*					m_pPlayer = NULL;
 
-	CTrack						m_track{60, -6.f};
+	CTrack*						m_track;
 
 #ifdef _WITH_DRAW_AXIS
 	CGameObject*				m_pWorldAxis = NULL;
