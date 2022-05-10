@@ -473,30 +473,3 @@ void CAxisMesh::Render(HDC hDCFrameBuffer)
 	::SelectObject(hDCFrameBuffer, hOldPen);
 	::DeleteObject(hPen);
 }
-
-//CRailMesh::CRailMesh(float width, float height, float depth) : CMesh(1) {
-//
-//	float halfRailWidth = 4.f * 0.5f;
-//
-//
-//	//CPolygon* polygon = new CPolygon(4);
-//	//polygon->SetVertex(0, CVertex(-fHalfWidth, +fHalfHeight, -fHalfDepth));
-//	//polygon->SetVertex(1, CVertex(+fHalfWidth, +fHalfHeight, -fHalfDepth));
-//	//polygon->SetVertex(2, CVertex(+fHalfWidth, -fHalfHeight, -fHalfDepth));
-//	//polygon->SetVertex(3, CVertex(-fHalfWidth, -fHalfHeight, -fHalfDepth));
-//	//SetPolygon(0, polygon);
-//
-//
-//	// left
-//	CCubeMesh* cubeMesh = new CCubeMesh(width - halfRailWidth, height, depth);
-//	cubeMeshes[0] = cubeMesh;
-//
-//	// right
-//	cubeMesh = new CCubeMesh(width + halfRailWidth, height, depth);
-//	cubeMeshes[0] = cubeMesh;
-//
-//	// front
-//	cubeMesh = new CCubeMesh(width, height, depth);
-//	
-//
-//}
