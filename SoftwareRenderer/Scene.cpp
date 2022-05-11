@@ -101,7 +101,7 @@ void CScene::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wPar
 			//auto initialPosition = m_track->begin->GetPosition();
 			//m_pPlayer->SetPosition(initialPosition);
 			//m_pPlayer->m_xmf3Velocity = DirectX::XMFLOAT3{};
-			m_ppObjects[0]->SetPosition(m_track->begin->GetPosition());
+			m_pPlayer->SetPosition(m_track->begin->GetPosition());
 			break;
 		case 'W':
 			//m_ppObjects[0]->m_xmf4x4World = m_track->now++->m_xmf4x4World;
@@ -308,7 +308,7 @@ void CScene::Animate(float fElapsedTime)
 
 		////m_ppObjects[0]->m_xmf4x4World = Matrix4x4::Multiply(m_ppObjects[0]->m_xmf4x4World, t);
 		//m_ppObjects[0]->m_xmf4x4World = m_track->now->m_xmf4x4World;
-		//
+
 
 		DirectX::XMFLOAT3 direction;
 		auto temp = index;
@@ -321,12 +321,14 @@ void CScene::Animate(float fElapsedTime)
 		direction.y = nextPos.y - currPos.y;
 		direction.z = nextPos.z - currPos.z;
 
-		m_ppObjects[0]->SetMovingDirection(direction);
-
+		//m_ppObjects[0]->SetMovingDirection(direction);
+		m_pPlayer->SetMovingDirection(direction);
 		float speed = direction.x / m_ppObjects[0]->m_xmf3MovingDirection.x;
-		m_ppObjects[0]->SetMovingSpeed(speed);
-
-		m_ppObjects[0]->Move(m_ppObjects[0]->m_xmf3MovingDirection, m_ppObjects[0]->m_fMovingSpeed);
+		//m_ppObjects[0]->SetMovingSpeed(speed);
+		m_pPlayer->SetMovingSpeed(speed);
+		//m_ppObjects[0]->Move(m_ppObjects[0]->m_xmf3MovingDirection, m_ppObjects[0]->m_fMovingSpeed);
+		//m_pPlayer->LookAt(direction, XMFLOAT3{ 0.f, 1.f, 0.f });
+		m_pPlayer->Move(m_ppObjects[0]->m_xmf3MovingDirection, true);
 
 		//++index;
 		//index %= m_track->m_nTrack;
