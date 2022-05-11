@@ -9,11 +9,11 @@ public:
 	void CreateTrack();
 	CGameObject* now = nullptr;
 	CGameObject* begin;
-private:
-	int m_track = 60;
+	int m_nTrack = 60;
 	float m_degree = -6.f;
 	//std::list<CGameObject*> track;
 	std::vector<CGameObject*> track;
+private:
 public:
 	virtual void Render(HDC hDCFrameBuffer, CCamera* pCamera);
 };

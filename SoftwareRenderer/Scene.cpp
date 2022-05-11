@@ -37,7 +37,7 @@ void CScene::BuildObjects()
 	m_nObjects = 1;
 	m_ppObjects = new CGameObject * [m_nObjects];
 
-	CCubeMesh* cubeMesh = new CCubeMesh(1.f, 1.f, 1.f);
+	CCubeMesh* cubeMesh = new CCubeMesh(0.7f, 0.7f, 0.7f);
 
 	m_ppObjects[0] = new CGameObject;
 	m_ppObjects[0]->SetMesh(cubeMesh);
@@ -98,12 +98,16 @@ void CScene::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wPar
 			//	}
 			//	break;
 		case 'R':
-			auto initialPosition = m_track->begin->GetPosition();
+			//auto initialPosition = m_track->begin->GetPosition();
 			//m_pPlayer->SetPosition(initialPosition);
 			//m_pPlayer->m_xmf3Velocity = DirectX::XMFLOAT3{};
-			m_ppObjects[0]->SetPosition(initialPosition);
+			m_ppObjects[0]->SetPosition(m_track->begin->GetPosition());
 			break;
 		case 'W':
+			//m_ppObjects[0]->m_xmf4x4World = m_track->now++->m_xmf4x4World;
+			isCoasterMoving = true;
+
+			//m_ppObjects[0]->SetPosition(m_track->now++->GetPosition());
 			//float movingSpeed = (m_ppObjects[0]->GetPosition().z
 			//	- m_ppObjects[1]->GetPosition().z) / 60.f;
 			//m_pPlayer->SetMovingDirection(DirectX::XMFLOAT3{ 0.f, 0.f, 1.f });
@@ -112,7 +116,7 @@ void CScene::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wPar
 
 			//m_pPlayer->m_xmf3Velocity.z = 1.f;
 
-			isCoasterMoving = true;
+			//isCoasterMoving = true;
 			//m_ppObjects[0]->SetPosition(m_track->now->GetPosition());
 
 
@@ -272,27 +276,41 @@ void CScene::Animate(float fElapsedTime)
 
 	
 	if (isCoasterMoving) {
-		DirectX::XMFLOAT3 direction;
-		//m_track->now = std::next(m_track->now);
-		DirectX::XMFLOAT3 pos = m_track->now++->GetPosition();
-		//DirectX::XMFLOAT3& nextPos = (m_track->now)->GetPosition();
-		//DirectX::XMFLOAT3& playerPos = m_pPlayer->GetPosition();
-		//direction.x = (pos.x - playerPos.x) * fElapsedTime;
-		//direction.y = (pos.y - playerPos.y) * fElapsedTime;
-		//direction.z = (pos.z - playerPos.z) * fElapsedTime;
+		//DirectX::XMFLOAT3 direction;
+		////m_track->now = std::next(m_track->now);
+		//DirectX::XMFLOAT3 pos = m_track->now++->GetPosition();
+		////DirectX::XMFLOAT3& nextPos = (m_track->now)->GetPosition();
+		////DirectX::XMFLOAT3& playerPos = m_pPlayer->GetPosition();
+		////direction.x = (pos.x - playerPos.x) * fElapsedTime;
+		////direction.y = (pos.y - playerPos.y) * fElapsedTime;
+		////direction.z = (pos.z - playerPos.z) * fElapsedTime;
 
-		//m_pPlayer->SetMovingDirection(direction);
-		//m_pPlayer->Move(m_pPlayer->m_xmf3MovingDirection, isCoasterMoving);
+		////m_pPlayer->SetMovingDirection(direction);
+		////m_pPlayer->Move(m_pPlayer->m_xmf3MovingDirection, isCoasterMoving);
 
-		//DirectX::XMFLOAT3& objPos = m_ppObjects[0]->GetPosition();
-		DirectX::XMFLOAT3 objPos = m_track->now->GetPosition();
-		direction.x = (pos.x - objPos.x) * fElapsedTime;
-		direction.y = (pos.y - objPos.y) * fElapsedTime;
-		direction.z = (pos.z - objPos.z) * fElapsedTime;
-		
-		m_ppObjects[0]->SetMovingDirection(direction);
-		m_ppObjects[0]->Move(m_ppObjects[0]->m_xmf3MovingDirection, isCoasterMoving);
-		//m_ppObjects[0]->SetPosition(pos);
+		////DirectX::XMFLOAT3& objPos = m_ppObjects[0]->GetPosition();
+		//DirectX::XMFLOAT3 objPos = m_track->now->GetPosition();
+		//direction.x = (pos.x - objPos.x) * fElapsedTime;
+		//direction.y = (pos.y - objPos.y) * fElapsedTime;
+		//direction.z = (pos.z - objPos.z) * fElapsedTime;
+		//
+		////m_ppObjects[0]->SetMovingDirection(direction);
+		////m_ppObjects[0]->Move(m_ppObjects[0]->m_xmf3MovingDirection, isCoasterMoving);
+
+		////m_ppObjects[0]->SetPosition(pos);
+		////isCoasterMoving = false;
+		//XMFLOAT3 basePos = XMFLOAT3{ -15.f, 0.f, 0.f };
+		////auto world = m_track->now->m_xmf4x4World;
+		//XMFLOAT4X4 t = Matrix4x4::Translate(basePos.x, basePos.y, basePos.z);
+
+		////m_ppObjects[0]->m_xmf4x4World = Matrix4x4::Multiply(m_ppObjects[0]->m_xmf4x4World, t);
+		//m_ppObjects[0]->m_xmf4x4World = m_track->now->m_xmf4x4World;
+		//
+		++index;
+		index %= m_track->m_nTrack;
+		m_track->begin = m_track->track.at(index);
+		m_ppObjects[0]->SetPosition(m_track->begin->GetPosition());
+
 		isCoasterMoving = false;
 	}
 	
