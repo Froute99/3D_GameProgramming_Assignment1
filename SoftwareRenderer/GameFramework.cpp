@@ -71,7 +71,7 @@ void CGameFramework::BuildObjects()
 	pCamera->GenerateOrthographicProjectionMatrix(1.01f, 50.0f, FRAMEBUFFER_WIDTH, FRAMEBUFFER_HEIGHT);
 
 	//CAirplaneMesh* pAirplaneMesh = new CAirplaneMesh(6.0f, 6.0f, 1.0f);
-	CCubeMesh* cubeMesh = new CCubeMesh(3.f, 3.f, 3.f);
+	CCubeMesh* cubeMesh = new CCubeMesh(1.f, 1.f, 1.f);
 
 	//m_pPlayer = new CAirplanePlayer();
 	m_pPlayer = new CPlayer();
@@ -168,7 +168,7 @@ LRESULT CALLBACK CGameFramework::OnProcessingWindowMessage(HWND hWnd, UINT nMess
 	case WM_LBUTTONUP:
 	case WM_RBUTTONUP:
 	case WM_MOUSEMOVE:
-		OnProcessingMouseMessage(hWnd, nMessageID, wParam, lParam);
+		//OnProcessingMouseMessage(hWnd, nMessageID, wParam, lParam);
 		break;
 	case WM_KEYDOWN:
 	case WM_KEYUP:

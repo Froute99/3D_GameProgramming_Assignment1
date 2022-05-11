@@ -62,6 +62,7 @@ class CCubeMesh : public CMesh
 public:
 	CCubeMesh(float fWidth = 4.0f, float fHeight = 4.0f, float fDepth = 4.0f);
 	virtual ~CCubeMesh() { }
+
 };
 
 class CWallMesh : public CMesh
@@ -86,13 +87,3 @@ public:
 
 	virtual void Render(HDC hDCFrameBuffer);
 };
-
-//class CRailMesh : public CMesh {
-//public:
-//	CRailMesh(float width = 2.f, float height = 2.f, float depth = 5.f);
-//	virtual ~CRailMesh() { }
-//
-//
-//private:
-//	CCubeMesh* cubeMeshes[4];
-//};
