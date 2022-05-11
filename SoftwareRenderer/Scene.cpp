@@ -123,6 +123,9 @@ void CScene::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wPar
 			//DirectX::XMFLOAT3 currPosition = m_pPlayer->GetPosition();
 			//m_pPlayer->SetPosition(DirectX::XMFLOAT3{ currPosition.x, currPosition.y, currPosition.z + 1.f });
 			break;
+		case 'S':
+			isCoasterMoving = false;
+			break;
 		default:
 			break;
 		}
@@ -306,12 +309,31 @@ void CScene::Animate(float fElapsedTime)
 		////m_ppObjects[0]->m_xmf4x4World = Matrix4x4::Multiply(m_ppObjects[0]->m_xmf4x4World, t);
 		//m_ppObjects[0]->m_xmf4x4World = m_track->now->m_xmf4x4World;
 		//
-		++index;
-		index %= m_track->m_nTrack;
-		m_track->begin = m_track->track.at(index);
-		m_ppObjects[0]->SetPosition(m_track->begin->GetPosition());
 
-		isCoasterMoving = false;
+		DirectX::XMFLOAT3 direction;
+		auto temp = index;
+		auto currPos = m_track->track.at(index % m_track->m_nTrack)->GetPosition();
+		auto nextPos = m_track->track.at((++index) % m_track->m_nTrack)->GetPosition();
+		//(index + 1) % m_track->m_nTrack;
+
+		
+		direction.x = nextPos.x - currPos.x;
+		direction.y = nextPos.y - currPos.y;
+		direction.z = nextPos.z - currPos.z;
+
+		m_ppObjects[0]->SetMovingDirection(direction);
+
+		float speed = direction.x / m_ppObjects[0]->m_xmf3MovingDirection.x;
+		m_ppObjects[0]->SetMovingSpeed(speed);
+
+		m_ppObjects[0]->Move(m_ppObjects[0]->m_xmf3MovingDirection, m_ppObjects[0]->m_fMovingSpeed);
+
+		//++index;
+		//index %= m_track->m_nTrack;
+		//m_track->begin = m_track->track.at(index);
+		//m_ppObjects[0]->SetPosition(m_track->begin->GetPosition());
+
+		//isCoasterMoving = false;
 	}
 	
 

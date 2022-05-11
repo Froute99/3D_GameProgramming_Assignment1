@@ -11,7 +11,6 @@ public:
 	CGameObject* begin;
 	int m_nTrack = 60;
 	float m_degree = -6.f;
-	//std::list<CGameObject*> track;
 	std::vector<CGameObject*> track;
 private:
 public:
