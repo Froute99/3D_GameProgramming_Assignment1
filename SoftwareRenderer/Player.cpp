@@ -57,7 +57,6 @@ void CPlayer::Move(XMFLOAT3& xmf3Shift, bool bUpdateVelocity)
 	else
 	{
 		m_xmf3Position = Vector3::Add(xmf3Shift, m_xmf3Position);
-		m_pCamera->SetLookAt(xmf3Shift, XMFLOAT3{ 0.f, 1.f, 0.f });
 		m_pCamera->Move(xmf3Shift);
 	}
 }

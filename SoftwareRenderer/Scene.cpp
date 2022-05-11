@@ -277,7 +277,7 @@ void CScene::Animate(float fElapsedTime)
 	for (int i = 0; i < m_nObjects; i++)
 		m_ppObjects[i]->Animate(fElapsedTime);
 
-	
+
 	if (isCoasterMoving) {
 		//DirectX::XMFLOAT3 direction;
 		////m_track->now = std::next(m_track->now);
@@ -316,19 +316,20 @@ void CScene::Animate(float fElapsedTime)
 		auto nextPos = m_track->track.at((++index) % m_track->m_nTrack)->GetPosition();
 		//(index + 1) % m_track->m_nTrack;
 
-		
-		direction.x = nextPos.x - currPos.x;
-		direction.y = nextPos.y - currPos.y;
-		direction.z = nextPos.z - currPos.z;
+
+		direction.x = (nextPos.x - currPos.x);
+		direction.y = (nextPos.y - currPos.y);
+		direction.z = (nextPos.z - currPos.z);
 
 		//m_ppObjects[0]->SetMovingDirection(direction);
 		m_pPlayer->SetMovingDirection(direction);
-		float speed = direction.x / m_ppObjects[0]->m_xmf3MovingDirection.x;
+		//float speed = direction.x / m_pPlayer->m_xmf3MovingDirection.x;
 		//m_ppObjects[0]->SetMovingSpeed(speed);
-		m_pPlayer->SetMovingSpeed(speed);
+		//m_pPlayer->SetMovingSpeed(speed);
 		//m_ppObjects[0]->Move(m_ppObjects[0]->m_xmf3MovingDirection, m_ppObjects[0]->m_fMovingSpeed);
 		//m_pPlayer->LookAt(direction, XMFLOAT3{ 0.f, 1.f, 0.f });
-		m_pPlayer->Move(m_ppObjects[0]->m_xmf3MovingDirection, true);
+		m_pPlayer->Move(direction, false);
+
 
 		//++index;
 		//index %= m_track->m_nTrack;
