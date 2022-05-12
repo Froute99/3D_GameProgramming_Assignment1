@@ -15,11 +15,7 @@ CScene::~CScene()
 
 void CScene::BuildObjects()
 {
-	//CExplosiveObject::PrepareExplosion();
-
-	//float fHalfWidth = 45.0f, fHalfHeight = 45.0f, fHalfDepth = 200.0f;
-	//CWallMesh* pWallCubeMesh = new CWallMesh(fHalfWidth * 2.0f, fHalfHeight * 2.0f, fHalfDepth * 2.0f, 30);
-
+	CExplosiveObject::PrepareExplosion();
 
 	m_track = new CTrack(240);
 
@@ -28,7 +24,7 @@ void CScene::BuildObjects()
 
 	CCubeMesh* cubeMesh = new CCubeMesh(0.7f, 0.7f, 0.7f);
 
-	m_ppObjects[0] = new CGameObject;
+	m_ppObjects[0] = new CExplosiveObject;
 	m_ppObjects[0]->SetColor(RGB(0, 255, 0));
 	auto pos = m_track->track.at(120)->GetPosition();
 	m_ppObjects[0]->SetPosition(pos.x, pos.y + 1.f, pos.z);
@@ -68,9 +64,14 @@ void CScene::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wPar
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
+		//case '1': {
+		//	CExplosiveObject* pExplosiveObject = (CExplosiveObject*)m_ppObjects[int(wParam - '1')];
+		//	pExplosiveObject->m_bBlowingUp = true;
+		//	break;
+		//}
 		case 'R':
-			auto something = m_track->track.at(0)->GetPosition(); 
-			m_pPlayer->SetPosition(something.x, something.y + 1.f, something.z);
+			auto initialPos = m_track->track.at(0)->GetPosition(); 
+			m_pPlayer->SetPosition(initialPos.x, initialPos.y + 1.f, initialPos.z);
 			index = 0;
 			break;
 		case 'W':
@@ -116,30 +117,36 @@ CGameObject* CScene::PickObjectPointedByCursor(int xClient, int yClient, CCamera
 
 void CScene::CheckObjectByObjectCollisions()
 {
-	for (int i = 0; i < m_nObjects; i++) m_ppObjects[i]->m_pObjectCollided = NULL;
+	for (int i = 0; i < m_nObjects; i++)
+		m_ppObjects[i]->m_pObjectCollided = NULL;
 	for (int i = 0; i < m_nObjects; i++)
 	{
-		for (int j = (i + 1); j < m_nObjects; j++)
-		{
-			if (m_ppObjects[i]->m_xmOOBB.Intersects(m_ppObjects[j]->m_xmOOBB))
-			{
-				m_ppObjects[i]->m_pObjectCollided = m_ppObjects[j];
-				m_ppObjects[j]->m_pObjectCollided = m_ppObjects[i];
-			}
+		//for (int j = (i + 1); j < m_nObjects; j++)
+		//{
+		//	if (m_ppObjects[i]->m_xmOOBB.Intersects(m_ppObjects[j]->m_xmOOBB))
+		//	{
+		//		m_ppObjects[i]->m_pObjectCollided = m_ppObjects[j];
+		//		m_ppObjects[j]->m_pObjectCollided = m_ppObjects[i];
+		//	}
+		//}
+		if (m_pPlayer->m_xmOOBB.Intersects(m_ppObjects[i]->m_xmOOBB)) {
+			m_ppObjects[i]->m_pObjectCollided = m_pPlayer;
 		}
 	}
 	for (int i = 0; i < m_nObjects; i++)
 	{
 		if (m_ppObjects[i]->m_pObjectCollided)
 		{
-			XMFLOAT3 xmf3MovingDirection = m_ppObjects[i]->m_xmf3MovingDirection;
-			float fMovingSpeed = m_ppObjects[i]->m_fMovingSpeed;
-			m_ppObjects[i]->m_xmf3MovingDirection = m_ppObjects[i]->m_pObjectCollided->m_xmf3MovingDirection;
-			m_ppObjects[i]->m_fMovingSpeed = m_ppObjects[i]->m_pObjectCollided->m_fMovingSpeed;
-			m_ppObjects[i]->m_pObjectCollided->m_xmf3MovingDirection = xmf3MovingDirection;
-			m_ppObjects[i]->m_pObjectCollided->m_fMovingSpeed = fMovingSpeed;
-			m_ppObjects[i]->m_pObjectCollided->m_pObjectCollided = NULL;
-			m_ppObjects[i]->m_pObjectCollided = NULL;
+			//XMFLOAT3 xmf3MovingDirection = m_ppObjects[i]->m_xmf3MovingDirection;
+			//float fMovingSpeed = m_ppObjects[i]->m_fMovingSpeed;
+			//m_ppObjects[i]->m_xmf3MovingDirection = m_ppObjects[i]->m_pObjectCollided->m_xmf3MovingDirection;
+			//m_ppObjects[i]->m_fMovingSpeed = m_ppObjects[i]->m_pObjectCollided->m_fMovingSpeed;
+			//m_ppObjects[i]->m_pObjectCollided->m_xmf3MovingDirection = xmf3MovingDirection;
+			//m_ppObjects[i]->m_pObjectCollided->m_fMovingSpeed = fMovingSpeed;
+			//m_ppObjects[i]->m_pObjectCollided->m_pObjectCollided = NULL;
+			//m_ppObjects[i]->m_pObjectCollided = NULL;
+			CExplosiveObject* pExplosiveObject = (CExplosiveObject*)m_ppObjects[i];
+			pExplosiveObject->m_bBlowingUp = true;
 		}
 	}
 }
@@ -249,7 +256,7 @@ void CScene::Animate(float fElapsedTime)
 
 	//CheckObjectByWallCollisions();
 
-	//CheckObjectByObjectCollisions();
+	CheckObjectByObjectCollisions();
 
 	//CheckObjectByBulletCollisions();
 }
