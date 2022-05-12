@@ -7,7 +7,6 @@ public:
 	CTrack(int num);
 	void CreateTrack();
 
-	CGameObject* now = nullptr;
 	int m_nTrack = 60;
 	float m_degree = -6.f;
 	std::vector<CGameObject*> track;

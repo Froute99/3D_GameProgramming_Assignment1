@@ -121,32 +121,27 @@ void CScene::CheckObjectByObjectCollisions()
 		m_ppObjects[i]->m_pObjectCollided = NULL;
 	for (int i = 0; i < m_nObjects; i++)
 	{
-		//for (int j = (i + 1); j < m_nObjects; j++)
-		//{
-		//	if (m_ppObjects[i]->m_xmOOBB.Intersects(m_ppObjects[j]->m_xmOOBB))
-		//	{
-		//		m_ppObjects[i]->m_pObjectCollided = m_ppObjects[j];
-		//		m_ppObjects[j]->m_pObjectCollided = m_ppObjects[i];
-		//	}
-		//}
-		if (m_pPlayer->m_xmOOBB.Intersects(m_ppObjects[i]->m_xmOOBB)) {
-			m_ppObjects[i]->m_pObjectCollided = m_pPlayer;
+		for (int j = (i + 1); j < m_nObjects; j++)
+		{
+			if (m_ppObjects[i]->m_xmOOBB.Intersects(m_ppObjects[j]->m_xmOOBB))
+			{
+				m_ppObjects[i]->m_pObjectCollided = m_ppObjects[j];
+				m_ppObjects[j]->m_pObjectCollided = m_ppObjects[i];
+			}
 		}
 	}
 	for (int i = 0; i < m_nObjects; i++)
 	{
 		if (m_ppObjects[i]->m_pObjectCollided)
 		{
-			//XMFLOAT3 xmf3MovingDirection = m_ppObjects[i]->m_xmf3MovingDirection;
-			//float fMovingSpeed = m_ppObjects[i]->m_fMovingSpeed;
-			//m_ppObjects[i]->m_xmf3MovingDirection = m_ppObjects[i]->m_pObjectCollided->m_xmf3MovingDirection;
-			//m_ppObjects[i]->m_fMovingSpeed = m_ppObjects[i]->m_pObjectCollided->m_fMovingSpeed;
-			//m_ppObjects[i]->m_pObjectCollided->m_xmf3MovingDirection = xmf3MovingDirection;
-			//m_ppObjects[i]->m_pObjectCollided->m_fMovingSpeed = fMovingSpeed;
-			//m_ppObjects[i]->m_pObjectCollided->m_pObjectCollided = NULL;
-			//m_ppObjects[i]->m_pObjectCollided = NULL;
-			CExplosiveObject* pExplosiveObject = (CExplosiveObject*)m_ppObjects[i];
-			pExplosiveObject->m_bBlowingUp = true;
+			XMFLOAT3 xmf3MovingDirection = m_ppObjects[i]->m_xmf3MovingDirection;
+			float fMovingSpeed = m_ppObjects[i]->m_fMovingSpeed;
+			m_ppObjects[i]->m_xmf3MovingDirection = m_ppObjects[i]->m_pObjectCollided->m_xmf3MovingDirection;
+			m_ppObjects[i]->m_fMovingSpeed = m_ppObjects[i]->m_pObjectCollided->m_fMovingSpeed;
+			m_ppObjects[i]->m_pObjectCollided->m_xmf3MovingDirection = xmf3MovingDirection;
+			m_ppObjects[i]->m_pObjectCollided->m_fMovingSpeed = fMovingSpeed;
+			m_ppObjects[i]->m_pObjectCollided->m_pObjectCollided = NULL;
+			m_ppObjects[i]->m_pObjectCollided = NULL;
 		}
 	}
 }
@@ -230,6 +225,19 @@ void CScene::CheckObjectByBulletCollisions()
 	}
 }
 
+void CScene::CheckPlayerByObjectCollisions() {
+	for (int i = 0; i < m_nObjects; i++)
+		m_ppObjects[i]->m_pObjectCollided = NULL;
+
+	for (int i = 0; i < m_nObjects; i++) {
+		if (m_pPlayer->m_xmOOBB.Intersects(m_ppObjects[i]->m_xmOOBB)) {
+			m_ppObjects[i]->m_pObjectCollided = m_pPlayer;
+			CExplosiveObject* pExplosiveObject = (CExplosiveObject*)m_ppObjects[i];
+			pExplosiveObject->m_bBlowingUp = true;
+		}
+	}
+}
+
 void CScene::Animate(float fElapsedTime)
 {
 	for (int i = 0; i < m_nObjects; i++)
@@ -246,19 +254,11 @@ void CScene::Animate(float fElapsedTime)
 		direction.y = (nextPos.y - currPos.y);
 		direction.z = (nextPos.z - currPos.z);
 
-		m_pPlayer->SetMovingDirection(direction);
 		m_pPlayer->Move(direction, false);
 		m_pPlayer->LookTo(direction, XMFLOAT3{ 0.f, 1.f, 0.f });
 	}
 
-
-	//CheckPlayerByWallCollision();
-
-	//CheckObjectByWallCollisions();
-
-	CheckObjectByObjectCollisions();
-
-	//CheckObjectByBulletCollisions();
+	CheckPlayerByObjectCollisions();
 }
 
 void CScene::Render(HDC hDCFrameBuffer, CCamera* pCamera)
